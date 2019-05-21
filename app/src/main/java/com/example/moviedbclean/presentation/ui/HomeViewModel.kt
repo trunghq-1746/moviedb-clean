@@ -13,6 +13,9 @@ class HomeViewModel(
     private val _movies = MutableLiveData<List<MovieModel>>()
     val movies: LiveData<List<MovieModel>>
         get() = _movies
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
 
     init {
         discoverMovie()
@@ -21,7 +24,7 @@ class HomeViewModel(
     fun discoverMovie() {
         discoverMovieUseCase.execute {
             onLoading { isLoading, progress ->
-
+                _isLoading.value = isLoading
             }
             onComplete {
                 _movies.value = it
